@@ -2,19 +2,114 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type Actor struct {
+	Name    string  `json:"name"`
+	ActorID *string `json:"actor_id"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type ActorInput struct {
+	Name string  `json:"name"`
+	ID   *string `json:"id"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type DeleteStatus struct {
+	Iserror     bool    `json:"iserror"`
+	Description *string `json:"description"`
+}
+
+type GetActorResult struct {
+	Isexists bool   `json:"isexists"`
+	Actor    *Actor `json:"actor"`
+}
+
+type GetMovieResult struct {
+	Isexists bool   `json:"isexists"`
+	Movie    *Movie `json:"movie"`
+}
+
+type Movie struct {
+	Title   string      `json:"title"`
+	MovieID *string     `json:"movie_id"`
+	Genre   *MovieGenre `json:"genre"`
+	Actors  []*Actor    `json:"actors"`
+}
+
+type MovieInput struct {
+	Title  string        `json:"title"`
+	Genre  *MovieGenre   `json:"genre"`
+	Actors []*ActorInput `json:"actors"`
+}
+
+type PostStatus struct {
+	Iserror     bool    `json:"iserror"`
+	Description *string `json:"description"`
+	MovieID     *string `json:"movie_id"`
+}
+
+type PutStatus struct {
+	Iserror     bool    `json:"iserror"`
+	Description *string `json:"description"`
+}
+
+type UpdateActorInput struct {
+	Name *string `json:"name"`
+	ID   *string `json:"id"`
+}
+
+type UpdateInput struct {
+	MovieID string              `json:"movie_id"`
+	Title   *string             `json:"title"`
+	Genre   *MovieGenre         `json:"genre"`
+	Actors  []*UpdateActorInput `json:"actors"`
+}
+
+type MovieGenre string
+
+const (
+	MovieGenreAction   MovieGenre = "ACTION"
+	MovieGenreDrama    MovieGenre = "DRAMA"
+	MovieGenreComedy   MovieGenre = "COMEDY"
+	MovieGenreThriller MovieGenre = "THRILLER"
+)
+
+var AllMovieGenre = []MovieGenre{
+	MovieGenreAction,
+	MovieGenreDrama,
+	MovieGenreComedy,
+	MovieGenreThriller,
+}
+
+func (e MovieGenre) IsValid() bool {
+	switch e {
+	case MovieGenreAction, MovieGenreDrama, MovieGenreComedy, MovieGenreThriller:
+		return true
+	}
+	return false
+}
+
+func (e MovieGenre) String() string {
+	return string(e)
+}
+
+func (e *MovieGenre) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MovieGenre(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MovieGenre", str)
+	}
+	return nil
+}
+
+func (e MovieGenre) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }
