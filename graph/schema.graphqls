@@ -1,0 +1,76 @@
+type Movie{
+    title: String!
+    movie_id: ID
+    genre: MovieGenre
+    actors: [Actor]!
+}
+type Actor{
+    name: String!
+    actor_id: ID
+}
+enum MovieGenre {
+    ACTION
+    DRAMA
+    COMEDY
+    THRILLER
+}
+
+
+type Query {
+    movie(movie_id : ID!): GetMovieResult
+    movies: [Movie]
+    getmovies(getgenre: MovieGenre = COMEDY): [Movie]
+    actor(actor_id : ID!): GetActorResult
+    actors: [Actor]
+}
+type GetMovieResult{
+    isexists: Boolean!
+    movie: Movie
+}
+type GetActorResult{
+    isexists: Boolean!
+    actor: Actor
+}
+type Mutation {
+    add_movie(input: MovieInput!): PostStatus
+    update_movie(input: UpdateInput): PutStatus
+    delete_movie(movie_id: ID!): DeleteStatus
+    add_actor(input: ActorInput!): PostStatus
+    update_actor(input: UpdateActorInput): PutStatus
+    delete_actor(movie_id: ID!): DeleteStatus
+}
+
+input MovieInput{
+    title: String!
+    genre: MovieGenre
+    actors: [ActorInput]!
+}
+input ActorInput{
+    name: String!
+    id: ID
+}
+type PostStatus{
+    iserror: Boolean!
+    description: String
+    movie_id: ID
+}
+
+input UpdateInput{
+    movie_id: ID!
+    title: String
+    genre: MovieGenre
+    actors: [UpdateActorInput]
+}
+input UpdateActorInput{
+    name: String
+    id: ID
+}
+type PutStatus{
+    iserror: Boolean!
+    description: String
+}
+
+type DeleteStatus{
+    iserror: Boolean!
+    description: String
+}
