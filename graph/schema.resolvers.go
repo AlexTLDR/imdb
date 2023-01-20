@@ -6,38 +6,48 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"imdb/configs"
 	"imdb/graph/model"
+)
+
+var (
+	db = configs.ConnectDB()
 )
 
 // CreateMovie is the resolver for the createMovie field.
 func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: CreateMovie - createMovie"))
+	movie, err := db.CreateMovie(&input)
+	return movie, err
 }
 
 // CreateActor is the resolver for the createActor field.
 func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor) (*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: CreateActor - createActor"))
+	actor, err := db.CreateActor(&input)
+	return actor, err
 }
 
 // Actors is the resolver for the actors field.
 func (r *queryResolver) Actors(ctx context.Context) ([]*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: Actors - actors"))
+	actors, err := db.GetActors()
+	return actors, err
 }
 
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: Movies - movies"))
+	movies, err := db.GetMovies()
+	return movies, err
 }
 
 // Actor is the resolver for the actor field.
 func (r *queryResolver) Actor(ctx context.Context, input *model.FetchActor) (*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: Actor - actor"))
+	actor, err := db.SingleActor(input.ID)
+	return actor, err
 }
 
 // Movie is the resolver for the movie field.
 func (r *queryResolver) Movie(ctx context.Context, input *model.FetchMovie) (*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: Movie - movie"))
+	movie, err := db.SingleMovie(input.ID)
+	return movie, err
 }
 
 // Mutation returns MutationResolver implementation.
