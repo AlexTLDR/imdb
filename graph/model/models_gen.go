@@ -9,107 +9,80 @@ import (
 )
 
 type Actor struct {
-	Name    string  `json:"name"`
-	ActorID *string `json:"actor_id"`
+	ID    string `json:"_id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Phone string `json:"phone"`
 }
 
-type ActorInput struct {
-	Name string  `json:"name"`
-	ID   *string `json:"id"`
+type FetchActor struct {
+	ID string `json:"id"`
 }
 
-type DeleteStatus struct {
-	Iserror     bool    `json:"iserror"`
-	Description *string `json:"description"`
-}
-
-type GetActorResult struct {
-	Isexists bool   `json:"isexists"`
-	Actor    *Actor `json:"actor"`
-}
-
-type GetMovieResult struct {
-	Isexists bool   `json:"isexists"`
-	Movie    *Movie `json:"movie"`
+type FetchMovie struct {
+	ID string `json:"id"`
 }
 
 type Movie struct {
-	Title   string      `json:"title"`
-	MovieID *string     `json:"movie_id"`
-	Genre   *MovieGenre `json:"genre"`
-	Actors  []*Actor    `json:"actors"`
+	ID          string `json:"_id"`
+	ActorID     string `json:"actorId"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Status      Status `json:"status"`
 }
 
-type MovieInput struct {
-	Title  string        `json:"title"`
-	Genre  *MovieGenre   `json:"genre"`
-	Actors []*ActorInput `json:"actors"`
+type NewActor struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Phone string `json:"phone"`
 }
 
-type PostStatus struct {
-	Iserror     bool    `json:"iserror"`
-	Description *string `json:"description"`
-	MovieID     *string `json:"movie_id"`
+type NewMovie struct {
+	ActorID     string `json:"actorId"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Status      Status `json:"status"`
 }
 
-type PutStatus struct {
-	Iserror     bool    `json:"iserror"`
-	Description *string `json:"description"`
-}
-
-type UpdateActorInput struct {
-	Name *string `json:"name"`
-	ID   *string `json:"id"`
-}
-
-type UpdateInput struct {
-	MovieID string              `json:"movie_id"`
-	Title   *string             `json:"title"`
-	Genre   *MovieGenre         `json:"genre"`
-	Actors  []*UpdateActorInput `json:"actors"`
-}
-
-type MovieGenre string
+type Status string
 
 const (
-	MovieGenreAction   MovieGenre = "ACTION"
-	MovieGenreDrama    MovieGenre = "DRAMA"
-	MovieGenreComedy   MovieGenre = "COMEDY"
-	MovieGenreThriller MovieGenre = "THRILLER"
+	StatusNotStarted Status = "NOT_STARTED"
+	StatusInProgress Status = "IN_PROGRESS"
+	StatusCompleted  Status = "COMPLETED"
 )
 
-var AllMovieGenre = []MovieGenre{
-	MovieGenreAction,
-	MovieGenreDrama,
-	MovieGenreComedy,
-	MovieGenreThriller,
+var AllStatus = []Status{
+	StatusNotStarted,
+	StatusInProgress,
+	StatusCompleted,
 }
 
-func (e MovieGenre) IsValid() bool {
+func (e Status) IsValid() bool {
 	switch e {
-	case MovieGenreAction, MovieGenreDrama, MovieGenreComedy, MovieGenreThriller:
+	case StatusNotStarted, StatusInProgress, StatusCompleted:
 		return true
 	}
 	return false
 }
 
-func (e MovieGenre) String() string {
+func (e Status) String() string {
 	return string(e)
 }
 
-func (e *MovieGenre) UnmarshalGQL(v interface{}) error {
+func (e *Status) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = MovieGenre(str)
+	*e = Status(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MovieGenre", str)
+		return fmt.Errorf("%s is not a valid Status", str)
 	}
 	return nil
 }
 
-func (e MovieGenre) MarshalGQL(w io.Writer) {
+func (e Status) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

@@ -10,39 +10,19 @@ import (
 	"imdb/graph/model"
 )
 
-// AddMovie is the resolver for the add_movie field.
-func (r *mutationResolver) AddMovie(ctx context.Context, input model.MovieInput) (*model.PostStatus, error) {
-	panic(fmt.Errorf("not implemented: AddMovie - add_movie"))
+// CreateMovie is the resolver for the createMovie field.
+func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
+	panic(fmt.Errorf("not implemented: CreateMovie - createMovie"))
 }
 
-// UpdateMovie is the resolver for the update_movie field.
-func (r *mutationResolver) UpdateMovie(ctx context.Context, input *model.UpdateInput) (*model.PutStatus, error) {
-	panic(fmt.Errorf("not implemented: UpdateMovie - update_movie"))
+// CreateActor is the resolver for the createActor field.
+func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor) (*model.Actor, error) {
+	panic(fmt.Errorf("not implemented: CreateActor - createActor"))
 }
 
-// DeleteMovie is the resolver for the delete_movie field.
-func (r *mutationResolver) DeleteMovie(ctx context.Context, movieID string) (*model.DeleteStatus, error) {
-	panic(fmt.Errorf("not implemented: DeleteMovie - delete_movie"))
-}
-
-// AddActor is the resolver for the add_actor field.
-func (r *mutationResolver) AddActor(ctx context.Context, input model.ActorInput) (*model.PostStatus, error) {
-	panic(fmt.Errorf("not implemented: AddActor - add_actor"))
-}
-
-// UpdateActor is the resolver for the update_actor field.
-func (r *mutationResolver) UpdateActor(ctx context.Context, input *model.UpdateActorInput) (*model.PutStatus, error) {
-	panic(fmt.Errorf("not implemented: UpdateActor - update_actor"))
-}
-
-// DeleteActor is the resolver for the delete_actor field.
-func (r *mutationResolver) DeleteActor(ctx context.Context, movieID string) (*model.DeleteStatus, error) {
-	panic(fmt.Errorf("not implemented: DeleteActor - delete_actor"))
-}
-
-// Movie is the resolver for the movie field.
-func (r *queryResolver) Movie(ctx context.Context, movieID string) (*model.GetMovieResult, error) {
-	panic(fmt.Errorf("not implemented: Movie - movie"))
+// Actors is the resolver for the actors field.
+func (r *queryResolver) Actors(ctx context.Context) ([]*model.Actor, error) {
+	panic(fmt.Errorf("not implemented: Actors - actors"))
 }
 
 // Movies is the resolver for the movies field.
@@ -50,19 +30,14 @@ func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 	panic(fmt.Errorf("not implemented: Movies - movies"))
 }
 
-// Getmovies is the resolver for the getmovies field.
-func (r *queryResolver) Getmovies(ctx context.Context, getgenre *model.MovieGenre) ([]*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: Getmovies - getmovies"))
-}
-
 // Actor is the resolver for the actor field.
-func (r *queryResolver) Actor(ctx context.Context, actorID string) (*model.GetActorResult, error) {
+func (r *queryResolver) Actor(ctx context.Context, input *model.FetchActor) (*model.Actor, error) {
 	panic(fmt.Errorf("not implemented: Actor - actor"))
 }
 
-// Actors is the resolver for the actors field.
-func (r *queryResolver) Actors(ctx context.Context) ([]*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: Actors - actors"))
+// Movie is the resolver for the movie field.
+func (r *queryResolver) Movie(ctx context.Context, input *model.FetchMovie) (*model.Movie, error) {
+	panic(fmt.Errorf("not implemented: Movie - movie"))
 }
 
 // Mutation returns MutationResolver implementation.
