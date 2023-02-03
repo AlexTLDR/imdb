@@ -3,12 +3,11 @@ type Actor {
       name: String!
       email: String!
       phone: String!
-      movies: [Movie]
     }
 
     type Movie {
       _id: String!
-      actors: [Actor]
+      actorId: ID!
       name: String!
       description: String!
       status: Status!
@@ -35,7 +34,7 @@ type Actor {
     }
 
     input NewMovie {
-      actorId: [ID!]!
+      actorId: ID!
       name: String!
       description: String!
       status: Status!

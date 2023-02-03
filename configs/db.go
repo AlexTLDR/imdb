@@ -56,7 +56,6 @@ func (db *DB) CreateMovie(input *model.NewMovie) (*model.Movie, error) {
 
 	movie := &model.Movie{
 		ID:          res.InsertedID.(primitive.ObjectID).Hex(),
-		ActorID:     input.ActorID,
 		Name:        input.Name,
 		Description: input.Description,
 		Status:      model.StatusNotStarted,
@@ -86,13 +85,18 @@ func (db *DB) CreateActor(input *model.NewActor) (*model.Actor, error) {
 	return actor, err
 }
 
-func (db *DB) GetActors() ([]*model.Actor, error) {
+type GetActorsOptions struct {
+	movieID string
+}
+
+func (db *DB) GetActors(opts GetActorsOptions) ([]*model.Actor, error) {
+	//filter := bson.D{{"$text", bson.D{{"$search", "herb"}}}}
 	collection := colHelper(db, "actor")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var actors []*model.Actor
 	defer cancel()
 
-	res, err := collection.Find(ctx, bson.M{})
+	res, err := collection.Find(ctx, bson.D{{"$text", bson.D{{"$search", opts.movieID}}}})
 
 	if err != nil {
 		return nil, err
@@ -104,6 +108,7 @@ func (db *DB) GetActors() ([]*model.Actor, error) {
 		if err = res.Decode(&singleActor); err != nil {
 			log.Fatal(err)
 		}
+		//get the movie the actors are in
 		actors = append(actors, singleActor)
 	}
 
@@ -128,6 +133,14 @@ func (db *DB) GetMovies() ([]*model.Movie, error) {
 		if err = res.Decode(&singleMovie); err != nil {
 			log.Fatal(err)
 		}
+		//get the actors that are in the movie
+		//collection = colHelper(db, "actor")
+		actors, err := db.GetActors(GetActorsOptions{movieID: singleMovie.ID})
+		if err != nil {
+			return nil, err
+
+		}
+		singleMovie.Actors = actors
 		movies = append(movies, singleMovie)
 	}
 

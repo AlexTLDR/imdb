@@ -9,10 +9,11 @@ import (
 )
 
 type Actor struct {
-	ID    string `json:"_id" bson:"_id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Phone string `json:"phone"`
+	ID     string   `json:"_id" bson:"_id"`
+	Name   string   `json:"name"`
+	Email  string   `json:"email"`
+	Phone  string   `json:"phone"`
+	Movies []*Movie `json:"movies"`
 }
 
 type FetchActor struct {
@@ -24,11 +25,11 @@ type FetchMovie struct {
 }
 
 type Movie struct {
-	ID          string `json:"_id" bson:"_id"`
-	ActorID     string `json:"actorId"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Status      Status `json:"status"`
+	ID          string   `json:"_id" bson:"_id"`
+	Actors      []*Actor `json:"actors"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Status      Status   `json:"status"`
 }
 
 type NewActor struct {
@@ -38,10 +39,10 @@ type NewActor struct {
 }
 
 type NewMovie struct {
-	ActorID     string `json:"actorId"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Status      Status `json:"status"`
+	ActorID     []string `json:"actorId"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Status      Status   `json:"status"`
 }
 
 type Status string
