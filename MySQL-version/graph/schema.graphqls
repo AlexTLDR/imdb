@@ -1,0 +1,53 @@
+type Actor {
+      _id: String!
+      name: String!
+      email: String!
+      phone: String!
+    }
+
+    type Movie {
+      _id: String!
+      actorId: ID!
+      name: String!
+      description: String!
+      status: Status!
+    }
+
+    enum Status {
+      NOT_STARTED
+      IN_PROGRESS
+      COMPLETED
+    }
+
+    input FetchActor {
+      id: String!
+    }
+
+    input FetchMovie {
+      id: String!
+    }
+
+    input NewActor {
+      name: String!
+      email: String!
+      phone: String!
+    }
+
+    input NewMovie {
+      actorId: ID!
+      name: String!
+      description: String!
+      status: Status!
+    }
+
+    type Query {
+      actors: [Actor!]!
+      movies: [Movie!]!
+      actor(input: FetchActor): Actor!
+      movie(input: FetchMovie): Movie!
+    }
+
+    type Mutation {
+      createMovie(input: NewMovie!): Movie!
+      createActor(input: NewActor!): Actor!
+    }
