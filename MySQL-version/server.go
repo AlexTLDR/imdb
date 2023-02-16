@@ -1,13 +1,13 @@
 package main
 
 import (
+	"imdb/graph"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/AlexTLDR/imdb/MySQL-version/graph"
 )
 
 const defaultPort = "8080"

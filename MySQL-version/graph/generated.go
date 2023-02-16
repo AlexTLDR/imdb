@@ -8,12 +8,12 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"imdb/graph/model"
 	"strconv"
 	"sync"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/AlexTLDR/imdb/MySQL-version/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -320,7 +320,7 @@ func (ec *executionContext) field_Mutation_createActor_args(ctx context.Context,
 	var arg0 model.NewActor
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewActor2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐNewActor(ctx, tmp)
+		arg0, err = ec.unmarshalNNewActor2imdbᚋgraphᚋmodelᚐNewActor(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -335,7 +335,7 @@ func (ec *executionContext) field_Mutation_createMovie_args(ctx context.Context,
 	var arg0 model.NewMovie
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewMovie2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐNewMovie(ctx, tmp)
+		arg0, err = ec.unmarshalNNewMovie2imdbᚋgraphᚋmodelᚐNewMovie(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -365,7 +365,7 @@ func (ec *executionContext) field_Query_actor_args(ctx context.Context, rawArgs 
 	var arg0 *model.FetchActor
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalOFetchActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐFetchActor(ctx, tmp)
+		arg0, err = ec.unmarshalOFetchActor2ᚖimdbᚋgraphᚋmodelᚐFetchActor(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -380,7 +380,7 @@ func (ec *executionContext) field_Query_movie_args(ctx context.Context, rawArgs 
 	var arg0 *model.FetchMovie
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalOFetchMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐFetchMovie(ctx, tmp)
+		arg0, err = ec.unmarshalOFetchMovie2ᚖimdbᚋgraphᚋmodelᚐFetchMovie(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -807,7 +807,7 @@ func (ec *executionContext) _Movie_status(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(model.Status)
 	fc.Result = res
-	return ec.marshalNStatus2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐStatus(ctx, field.Selections, res)
+	return ec.marshalNStatus2imdbᚋgraphᚋmodelᚐStatus(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Movie_status(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -850,7 +850,7 @@ func (ec *executionContext) _Mutation_createMovie(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Movie)
 	fc.Result = res
-	return ec.marshalNMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovie(ctx, field.Selections, res)
+	return ec.marshalNMovie2ᚖimdbᚋgraphᚋmodelᚐMovie(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createMovie(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -916,7 +916,7 @@ func (ec *executionContext) _Mutation_createActor(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalNActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalNActor2ᚖimdbᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createActor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -980,7 +980,7 @@ func (ec *executionContext) _Query_actors(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Actor)
 	fc.Result = res
-	return ec.marshalNActor2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActorᚄ(ctx, field.Selections, res)
+	return ec.marshalNActor2ᚕᚖimdbᚋgraphᚋmodelᚐActorᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_actors(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1033,7 +1033,7 @@ func (ec *executionContext) _Query_movies(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Movie)
 	fc.Result = res
-	return ec.marshalNMovie2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovieᚄ(ctx, field.Selections, res)
+	return ec.marshalNMovie2ᚕᚖimdbᚋgraphᚋmodelᚐMovieᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_movies(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1088,7 +1088,7 @@ func (ec *executionContext) _Query_actor(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalNActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalNActor2ᚖimdbᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_actor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1152,7 +1152,7 @@ func (ec *executionContext) _Query_movie(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.(*model.Movie)
 	fc.Result = res
-	return ec.marshalNMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovie(ctx, field.Selections, res)
+	return ec.marshalNMovie2ᚖimdbᚋgraphᚋmodelᚐMovie(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_movie(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3233,7 +3233,7 @@ func (ec *executionContext) unmarshalInputNewMovie(ctx context.Context, obj inte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
-			it.Status, err = ec.unmarshalNStatus2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐStatus(ctx, v)
+			it.Status, err = ec.unmarshalNStatus2imdbᚋgraphᚋmodelᚐStatus(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -3830,11 +3830,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNActor2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v model.Actor) graphql.Marshaler {
+func (ec *executionContext) marshalNActor2imdbᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v model.Actor) graphql.Marshaler {
 	return ec._Actor(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNActor2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Actor) graphql.Marshaler {
+func (ec *executionContext) marshalNActor2ᚕᚖimdbᚋgraphᚋmodelᚐActorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Actor) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3858,7 +3858,7 @@ func (ec *executionContext) marshalNActor2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdb�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActor(ctx, sel, v[i])
+			ret[i] = ec.marshalNActor2ᚖimdbᚋgraphᚋmodelᚐActor(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3878,7 +3878,7 @@ func (ec *executionContext) marshalNActor2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdb�
 	return ret
 }
 
-func (ec *executionContext) marshalNActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v *model.Actor) graphql.Marshaler {
+func (ec *executionContext) marshalNActor2ᚖimdbᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v *model.Actor) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3918,11 +3918,11 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalNMovie2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v model.Movie) graphql.Marshaler {
+func (ec *executionContext) marshalNMovie2imdbᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v model.Movie) graphql.Marshaler {
 	return ec._Movie(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMovie2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovieᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Movie) graphql.Marshaler {
+func (ec *executionContext) marshalNMovie2ᚕᚖimdbᚋgraphᚋmodelᚐMovieᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Movie) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3946,7 +3946,7 @@ func (ec *executionContext) marshalNMovie2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdb�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovie(ctx, sel, v[i])
+			ret[i] = ec.marshalNMovie2ᚖimdbᚋgraphᚋmodelᚐMovie(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3966,7 +3966,7 @@ func (ec *executionContext) marshalNMovie2ᚕᚖgithubᚗcomᚋAlexTLDRᚋimdb�
 	return ret
 }
 
-func (ec *executionContext) marshalNMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v *model.Movie) graphql.Marshaler {
+func (ec *executionContext) marshalNMovie2ᚖimdbᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v *model.Movie) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3976,23 +3976,23 @@ func (ec *executionContext) marshalNMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMy
 	return ec._Movie(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNNewActor2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐNewActor(ctx context.Context, v interface{}) (model.NewActor, error) {
+func (ec *executionContext) unmarshalNNewActor2imdbᚋgraphᚋmodelᚐNewActor(ctx context.Context, v interface{}) (model.NewActor, error) {
 	res, err := ec.unmarshalInputNewActor(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewMovie2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐNewMovie(ctx context.Context, v interface{}) (model.NewMovie, error) {
+func (ec *executionContext) unmarshalNNewMovie2imdbᚋgraphᚋmodelᚐNewMovie(ctx context.Context, v interface{}) (model.NewMovie, error) {
 	res, err := ec.unmarshalInputNewMovie(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNStatus2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐStatus(ctx context.Context, v interface{}) (model.Status, error) {
+func (ec *executionContext) unmarshalNStatus2imdbᚋgraphᚋmodelᚐStatus(ctx context.Context, v interface{}) (model.Status, error) {
 	var res model.Status
 	err := res.UnmarshalGQL(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNStatus2githubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐStatus(ctx context.Context, sel ast.SelectionSet, v model.Status) graphql.Marshaler {
+func (ec *executionContext) marshalNStatus2imdbᚋgraphᚋmodelᚐStatus(ctx context.Context, sel ast.SelectionSet, v model.Status) graphql.Marshaler {
 	return v
 }
 
@@ -4290,7 +4290,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) unmarshalOFetchActor2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐFetchActor(ctx context.Context, v interface{}) (*model.FetchActor, error) {
+func (ec *executionContext) unmarshalOFetchActor2ᚖimdbᚋgraphᚋmodelᚐFetchActor(ctx context.Context, v interface{}) (*model.FetchActor, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -4298,7 +4298,7 @@ func (ec *executionContext) unmarshalOFetchActor2ᚖgithubᚗcomᚋAlexTLDRᚋim
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalOFetchMovie2ᚖgithubᚗcomᚋAlexTLDRᚋimdbᚋMySQLᚑversionᚋgraphᚋmodelᚐFetchMovie(ctx context.Context, v interface{}) (*model.FetchMovie, error) {
+func (ec *executionContext) unmarshalOFetchMovie2ᚖimdbᚋgraphᚋmodelᚐFetchMovie(ctx context.Context, v interface{}) (*model.FetchMovie, error) {
 	if v == nil {
 		return nil, nil
 	}

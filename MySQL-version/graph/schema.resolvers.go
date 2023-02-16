@@ -7,8 +7,7 @@ package graph
 import (
 	"context"
 	"fmt"
-
-	"github.com/AlexTLDR/imdb/MySQL-version/graph/model"
+	"imdb/graph/model"
 )
 
 // CreateMovie is the resolver for the createMovie field.
