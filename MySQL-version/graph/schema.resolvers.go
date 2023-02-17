@@ -29,7 +29,7 @@ func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie
 	return &AddMovie, nil
 }
 
-// CreateActor is the resolver for the createActor field.
+// CreateActor is the resolver for the createActor field.s
 func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor) (*model.Actor, error) {
 	AddActor := model.Actor{
 		// didn't manage the ID here
@@ -40,46 +40,11 @@ func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor
 
 	if err := r.Database.Create(&AddActor).Error; err != nil {
 		fmt.Println(err)
-		return nil, err
+		return nil, fmt.Errorf("From create actor missin id %w\n", err)
 
 	}
 
 	return &AddActor, nil
-}
-
-// UpdateMovie is the resolver for the UpdateMovie field.
-func (r *mutationResolver) UpdateMovie(ctx context.Context, MovieID string, input *model.NewMovie) (*model.Movie, error) {
-	UpdateMovie := model.Movie{
-		ActorID:     input.ActorID,
-		Name:        input.Name,
-		Description: input.Description,
-		Status:      input.Status,
-	}
-
-	if err := r.Database.Model(&model.Movie{}).Where("id=?", MovieID).Updates(&UpdateMovie).Error; err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	UpdateMovie.ID = MovieID
-	return &UpdateMovie, nil
-}
-
-// UpdateActor is the resolver for the UpdateActor field.
-func (r *mutationResolver) UpdateActor(ctx context.Context, ActorID string, input *model.NewActor) (*model.Actor, error) {
-	UpdateActor := model.Actor{
-		Name:  input.Name,
-		Email: input.Email,
-		Phone: input.Phone,
-	}
-
-	if err := r.Database.Model(&model.Actor{}).Where("id=?", ActorID).Updates(&UpdateActor).Error; err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	UpdateActor.ID = ActorID
-	return &UpdateActor, nil
 }
 
 // Actors is the resolver for the actors field.
@@ -144,3 +109,41 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *mutationResolver) UpdateMovie(ctx context.Context, MovieID int, input *model.NewMovie) (*model.Movie, error) {
+	UpdateMovie := model.Movie{
+		ActorID:     input.ActorID,
+		Name:        input.Name,
+		Description: input.Description,
+		Status:      input.Status,
+	}
+
+	if err := r.Database.Model(&model.Movie{}).Where("id=?", MovieID).Updates(&UpdateMovie).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	UpdateMovie.ID = MovieID
+	return &UpdateMovie, nil
+}
+func (r *mutationResolver) UpdateActor(ctx context.Context, ActorID int, input *model.NewActor) (*model.Actor, error) {
+	UpdateActor := model.Actor{
+		Name:  input.Name,
+		Email: input.Email,
+		Phone: input.Phone,
+	}
+
+	if err := r.Database.Model(&model.Actor{}).Where("id=?", ActorID).Updates(&UpdateActor).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	UpdateActor.ID = ActorID
+	return &UpdateActor, nil
+}

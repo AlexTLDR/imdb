@@ -1,12 +1,12 @@
 type Actor {
-      _id: String!
+      _id: Int!
       name: String!
       email: String!
       phone: String!
     }
 
     type Movie {
-      _id: String!
+      _id: Int!
       actorId: ID!
       name: String!
       description: String!
@@ -20,11 +20,11 @@ type Actor {
     }
 
     input FetchActor {
-      id: String!
+      id: Int!
     }
 
     input FetchMovie {
-      id: String!
+      id: Int!
     }
 
     input NewActor {

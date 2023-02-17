@@ -9,22 +9,22 @@ import (
 )
 
 type Actor struct {
-	ID    string `json:"_id"`
+	ID    int    `json:"_id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	Phone string `json:"phone"`
 }
 
 type FetchActor struct {
-	ID string `json:"id"`
+	ID int `json:"id"`
 }
 
 type FetchMovie struct {
-	ID string `json:"id"`
+	ID int `json:"id"`
 }
 
 type Movie struct {
-	ID          string `json:"_id"`
+	ID          int    `json:"_id"`
 	ActorID     string `json:"actorId"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
