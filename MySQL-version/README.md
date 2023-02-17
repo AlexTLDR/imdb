@@ -16,3 +16,5 @@ Or use the shared image that I already created and skip to step 3. In the termin
     3. Start the container from the image:
 
     in the same terminal from the mysql-docker folder, run -> docker run -d -p 3306:3306 --name imdb-sql -e MYSQL_ROOT_PASSWORD=123456 imdb-sql
+
+    4. In order to restart the container, just run -> docker start imdb-sql

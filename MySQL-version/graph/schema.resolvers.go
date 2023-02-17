@@ -12,12 +12,39 @@ import (
 
 // CreateMovie is the resolver for the createMovie field.
 func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: CreateMovie - createMovie"))
+	AddMovie := model.Movie{
+		// didn't manage the ID here
+		ActorID:     input.ActorID,
+		Name:        input.Name,
+		Description: input.Description,
+		Status:      input.Status,
+	}
+
+	if err := r.Database.Create(&AddMovie).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+
+	}
+
+	return &AddMovie, nil
 }
 
 // CreateActor is the resolver for the createActor field.
 func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor) (*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: CreateActor - createActor"))
+	AddActor := model.Actor{
+		// didn't manage the ID here
+		Name:  input.Name,
+		Email: input.Email,
+		Phone: input.Phone,
+	}
+
+	if err := r.Database.Create(&AddActor).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+
+	}
+
+	return &AddActor, nil
 }
 
 // Actors is the resolver for the actors field.
