@@ -47,6 +47,24 @@ func (r *mutationResolver) CreateActor(ctx context.Context, input model.NewActor
 	return &AddActor, nil
 }
 
+// UpdateMovie is the resolver for the UpdateMovie field.
+func (r *mutationResolver) UpdateMovie(ctx context.Context, MovieID string, input *model.NewMovie) (*model.Movie, error) {
+	UpdateMovie := model.Movie{
+		ActorID:     input.ActorID,
+		Name:        input.Name,
+		Description: input.Description,
+		Status:      input.Status,
+	}
+
+	if err := r.Database.Model(&model.Movie{}).Where("id=?", MovieID).Updates(&UpdateMovie).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	UpdateMovie.ID = MovieID
+	return &UpdateMovie, nil
+}
+
 // Actors is the resolver for the actors field.
 func (r *queryResolver) Actors(ctx context.Context) ([]*model.Actor, error) {
 	panic(fmt.Errorf("not implemented: Actors - actors"))
