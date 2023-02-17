@@ -24,11 +24,11 @@ type FetchMovie struct {
 }
 
 type Movie struct {
-	ID          int    `json:"_id"`
-	ActorID     string `json:"actorId"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Status      Status `json:"status"`
+	ID          int      `json:"_id"`
+	ActorID     []string `json:"actorId"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Status      Status   `json:"status"`
 }
 
 type NewActor struct {
@@ -38,10 +38,10 @@ type NewActor struct {
 }
 
 type NewMovie struct {
-	ActorID     string `json:"actorId"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Status      Status `json:"status"`
+	ActorID     []string `json:"actorId"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Status      Status   `json:"status"`
 }
 
 type Status string

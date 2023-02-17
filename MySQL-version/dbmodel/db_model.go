@@ -11,7 +11,7 @@ type Actor struct {
 
 type Movie struct {
 	ID          uint64       `sql:"AUTO_INCREMENT" gorm:"primary_key"`
-	ActorID     string       `gorm:"not null"`
+	ActorID     []uint64     `gorm:"not null"`
 	Name        string       `gorm:"not null"`
 	Description string       `gorm:"not null"`
 	Status      model.Status `gorm:"not null"`

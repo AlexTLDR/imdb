@@ -7,7 +7,7 @@ type Actor {
 
     type Movie {
       _id: Int!
-      actorId: ID!
+      actorId: [ID!]
       name: String!
       description: String!
       status: Status!
@@ -34,7 +34,7 @@ type Actor {
     }
 
     input NewMovie {
-      actorId: ID!
+      actorId: [ID!]
       name: String!
       description: String!
       status: Status!

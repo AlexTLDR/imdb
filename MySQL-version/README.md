@@ -18,3 +18,5 @@ Or use the shared image that I already created and skip to step 3. In the termin
     in the same terminal from the mysql-docker folder, run -> docker run -d -p 3306:3306 --name imdb-sql -e MYSQL_ROOT_PASSWORD=123456 imdb-sql
 
     4. In order to restart the container, just run -> docker start imdb-sql
+
+    https://stackoverflow.com/questions/52244001/go-gorm-mysql-unsupported-type-string-a-slice-of-string
