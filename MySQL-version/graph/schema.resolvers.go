@@ -110,7 +110,16 @@ func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 
 // Actor is the resolver for the actor field.
 func (r *queryResolver) Actor(ctx context.Context, input *model.FetchActor) (*model.Actor, error) {
-	panic(fmt.Errorf("not implemented: Actor - actor"))
+	//panic(fmt.Errorf("not implemented: Actor - actor"))
+
+	actor := model.Actor{}
+
+	if err := r.Database.Find(&actor, actor.ID).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return &actor, nil
 }
 
 // Movie is the resolver for the movie field.
