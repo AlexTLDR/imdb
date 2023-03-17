@@ -16,3 +16,8 @@ type Movie struct {
 	Description string       `gorm:"not null"`
 	Status      model.Status `gorm:"not null"`
 }
+
+type ActorMovie struct {
+	ActorID uint64 `gorm:"not null"`
+	MovieID uint64 `gorm:"not null"`
+}

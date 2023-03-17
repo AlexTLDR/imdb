@@ -49,4 +49,7 @@ func MigrateDB() {
 
 	DBInstance.AutoMigrate(&dbmodel.Movie{})
 	fmt.Println("Database Movie migration completed....")
+
+	DBInstance.AutoMigrate(&dbmodel.ActorMovie{})
+	fmt.Println("Database ActorsMovie migration completed....")
 }
