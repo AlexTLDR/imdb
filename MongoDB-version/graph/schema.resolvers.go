@@ -17,7 +17,9 @@ var (
 // CreateMovie is the resolver for the createMovie field.
 func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
 	movie, err := db.CreateMovie(&input)
+	movie.Status = input.Status
 	return movie, err
+
 }
 
 // CreateActor is the resolver for the createActor field.

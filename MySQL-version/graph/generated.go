@@ -11,6 +11,7 @@ import (
 	"imdb/graph/model"
 	"strconv"
 	"sync"
+	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
@@ -36,6 +37,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	Movie() MovieResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 }
@@ -52,7 +54,7 @@ type ComplexityRoot struct {
 	}
 
 	Movie struct {
-		ActorID     func(childComplexity int) int
+		Actors      func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
@@ -72,6 +74,9 @@ type ComplexityRoot struct {
 	}
 }
 
+type MovieResolver interface {
+	Actors(ctx context.Context, obj *model.Movie) ([]*model.Actor, error)
+}
 type MutationResolver interface {
 	CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error)
 	CreateActor(ctx context.Context, input model.NewActor) (*model.Actor, error)
@@ -126,12 +131,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Actor.Phone(childComplexity), true
 
-	case "Movie.actorId":
-		if e.complexity.Movie.ActorID == nil {
+	case "Movie.actors":
+		if e.complexity.Movie.Actors == nil {
 			break
 		}
 
-		return e.complexity.Movie.ActorID(childComplexity), true
+		return e.complexity.Movie.Actors(childComplexity), true
 
 	case "Movie.description":
 		if e.complexity.Movie.Description == nil {
@@ -647,8 +652,8 @@ func (ec *executionContext) fieldContext_Movie__id(ctx context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _Movie_actorId(ctx context.Context, field graphql.CollectedField, obj *model.Movie) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Movie_actorId(ctx, field)
+func (ec *executionContext) _Movie_actors(ctx context.Context, field graphql.CollectedField, obj *model.Movie) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Movie_actors(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -661,7 +666,7 @@ func (ec *executionContext) _Movie_actorId(ctx context.Context, field graphql.Co
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ActorID, nil
+		return ec.resolvers.Movie().Actors(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -670,19 +675,29 @@ func (ec *executionContext) _Movie_actorId(ctx context.Context, field graphql.Co
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]string)
+	res := resTmp.([]*model.Actor)
 	fc.Result = res
-	return ec.marshalOID2ᚕstringᚄ(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚕᚖimdbᚋgraphᚋmodelᚐActorᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Movie_actorId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Movie_actors(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Movie",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			switch field.Name {
+			case "_id":
+				return ec.fieldContext_Actor__id(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "phone":
+				return ec.fieldContext_Actor_phone(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -860,8 +875,8 @@ func (ec *executionContext) fieldContext_Mutation_createMovie(ctx context.Contex
 			switch field.Name {
 			case "_id":
 				return ec.fieldContext_Movie__id(ctx, field)
-			case "actorId":
-				return ec.fieldContext_Movie_actorId(ctx, field)
+			case "actors":
+				return ec.fieldContext_Movie_actors(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
 			case "description":
@@ -1043,8 +1058,8 @@ func (ec *executionContext) fieldContext_Query_movies(ctx context.Context, field
 			switch field.Name {
 			case "_id":
 				return ec.fieldContext_Movie__id(ctx, field)
-			case "actorId":
-				return ec.fieldContext_Movie_actorId(ctx, field)
+			case "actors":
+				return ec.fieldContext_Movie_actors(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
 			case "description":
@@ -1162,8 +1177,8 @@ func (ec *executionContext) fieldContext_Query_movie(ctx context.Context, field 
 			switch field.Name {
 			case "_id":
 				return ec.fieldContext_Movie__id(ctx, field)
-			case "actorId":
-				return ec.fieldContext_Movie_actorId(ctx, field)
+			case "actors":
+				return ec.fieldContext_Movie_actors(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
 			case "description":
@@ -3312,32 +3327,45 @@ func (ec *executionContext) _Movie(ctx context.Context, sel ast.SelectionSet, ob
 			out.Values[i] = ec._Movie__id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
-		case "actorId":
+		case "actors":
+			field := field
 
-			out.Values[i] = ec._Movie_actorId(ctx, field, obj)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Movie_actors(ctx, field, obj)
+				return res
+			}
 
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "name":
 
 			out.Values[i] = ec._Movie_name(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "description":
 
 			out.Values[i] = ec._Movie_description(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "status":
 
 			out.Values[i] = ec._Movie_status(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -4271,6 +4299,53 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) marshalOActor2ᚕᚖimdbᚋgraphᚋmodelᚐActorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Actor) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNActor2ᚖimdbᚋgraphᚋmodelᚐActor(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {

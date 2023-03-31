@@ -10,11 +10,16 @@ import (
 	"imdb/graph/model"
 )
 
+// Actors is the resolver for the actors field.
+func (r *movieResolver) Actors(ctx context.Context, obj *model.Movie) ([]*model.Actor, error) {
+	// panic(fmt.Errorf("not implemented: Actors - actors"))
+	return obj.ID
+}
+
 // CreateMovie is the resolver for the createMovie field.
 func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
 	AddMovie := model.Movie{
 		// didn't manage the ID here
-		ActorID:     input.ActorID,
 		Name:        input.Name,
 		Description: input.Description,
 		Status:      input.Status,
@@ -101,12 +106,16 @@ func (r *queryResolver) Movie(ctx context.Context, input *model.FetchMovie) (*mo
 	return &movie, nil
 }
 
+// Movie returns MovieResolver implementation.
+func (r *Resolver) Movie() MovieResolver { return &movieResolver{r} }
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type movieResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 
@@ -118,7 +127,7 @@ type queryResolver struct{ *Resolver }
 //   - You have helper methods in this file. Move them out to keep these resolver files clean.
 func (r *mutationResolver) UpdateMovie(ctx context.Context, MovieID int, input *model.NewMovie) (*model.Movie, error) {
 	UpdateMovie := model.Movie{
-		ActorID:     input.ActorID,
+		//ActorID:     input.ActorID,
 		Name:        input.Name,
 		Description: input.Description,
 		Status:      input.Status,

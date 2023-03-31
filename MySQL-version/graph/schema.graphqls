@@ -7,7 +7,7 @@ type Actor {
 
     type Movie {
       _id: Int!
-      actorId: [ID!]
+      actors: [Actor!]
       name: String!
       description: String!
       status: Status!
