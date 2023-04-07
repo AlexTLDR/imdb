@@ -8,3 +8,6 @@ docker run \
     --volume=$HOME/neo4j/logs:/logs \
     --env NEO4J_dbms_memory_pagecache_size=4G \
     neo4j:latest
+
+
+After the docker container is created, navigate to the Built in guides -> :guide movie-graph to create the movie data base
