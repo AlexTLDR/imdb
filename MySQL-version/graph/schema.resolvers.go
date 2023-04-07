@@ -12,8 +12,8 @@ import (
 
 // Actors is the resolver for the actors field.
 func (r *movieResolver) Actors(ctx context.Context, obj *model.Movie) ([]*model.Actor, error) {
-	// panic(fmt.Errorf("not implemented: Actors - actors"))
-	return obj.ID
+	panic(fmt.Errorf("not implemented: Actors - actors"))
+	//return obj.ID
 }
 
 // CreateMovie is the resolver for the createMovie field.
