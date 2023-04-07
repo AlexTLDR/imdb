@@ -23,7 +23,7 @@ type Actor {
       id: Int!
     }
 
-    input FetchMovie {
+    input FetchMovie {https://www.youtube.com/watch?v=xFKvMi7ggZY
       id: Int!
     }
 
