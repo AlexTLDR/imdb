@@ -1,28 +1,35 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
-
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+interface Node {
+  uuid: ID!
 }
 
-type User {
-  id: ID!
+type Movie implements Node {
+  uuid: ID!
+  title: String!
+  tagline: String!
+  released: Int!
+  directors: [Person!]!
+  writers: [Person!]!
+  cast: [Person!]!
+}
+
+type Person implements Node {
+  uuid: ID!
   name: String!
+  born: Int!
+  role: String
+  participated: [Participation!]!
+}
+
+""" Participation represents a person's role in a movie """
+type Participation {
+  role: String!
+  movie: Movie!
 }
 
 type Query {
-  todos: [Todo!]!
-}
+  """ Find a movie by its uuid """
+  movie(uuid: String!): Movie
 
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  """ Find movies by title and actor name """
+  movies(title: String, actor: String): [Movie!]!
 }

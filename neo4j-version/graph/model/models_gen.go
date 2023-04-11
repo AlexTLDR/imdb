@@ -2,19 +2,37 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Node interface {
+	IsNode()
+	GetUUID() string
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type Movie struct {
+	UUID      string    `json:"uuid"`
+	Title     string    `json:"title"`
+	Tagline   string    `json:"tagline"`
+	Released  int       `json:"released"`
+	Directors []*Person `json:"directors"`
+	Writers   []*Person `json:"writers"`
+	Cast      []*Person `json:"cast"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+func (Movie) IsNode()              {}
+func (this Movie) GetUUID() string { return this.UUID }
+
+// Participation represents a person's role in a movie
+type Participation struct {
+	Role  string `json:"role"`
+	Movie *Movie `json:"movie"`
 }
+
+type Person struct {
+	UUID         string           `json:"uuid"`
+	Name         string           `json:"name"`
+	Born         int              `json:"born"`
+	Role         *string          `json:"role,omitempty"`
+	Participated []*Participation `json:"participated"`
+}
+
+func (Person) IsNode()              {}
+func (this Person) GetUUID() string { return this.UUID }
