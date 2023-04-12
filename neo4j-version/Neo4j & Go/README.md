@@ -1,0 +1,1 @@
+Using this directory to test different queries to Neo4j within Go.
