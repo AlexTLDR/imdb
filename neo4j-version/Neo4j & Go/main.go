@@ -2,15 +2,16 @@ package main
 
 // Import the driver ("github.com/neo4j/neo4j-go-driver/v5/neo4j")
 import (
+	// Import the driver
 	"context"
 
 	. "github.com/neo4j-graphacademy/neoflix/pkg/shared"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 func main() {
 	// Neo4j Credentials
 	credentials := GetNeo4jCredentials()
-	ctx := context.Background()
 
 	// Cypher Query and Parameters
 	cypher := `
@@ -21,13 +22,27 @@ func main() {
 
 	// TODO: Create a DriverWithContext Instance
 
+	ctx := context.Background()
+	driver, err := neo4j.NewDriverWithContext(
+		credentials.Uri,
+		neo4j.BasicAuth(credentials.Username, credentials.Password, ""),
+	)
+	PanicOnErr(err)
+
 	// TODO: close the driver with defer PanicOnClosureError(ctx, driver)
+	defer PanicOnClosureError(ctx, driver)
 
 	// TODO: Open a new Session
 
+	session := driver.NewSession(ctx, neo4j.SessionConfig{})
+
 	// TODO: close the session with defer PanicOnClosureError(ctx, driver)
 
+	defer PanicOnClosureError(ctx, session)
+
 	// TODO: Run a Cypher statement
+	result, err := session.Run(ctx, cypher, params)
+	PanicOnErr(err)
 
 	// TODO: Log the Director value of the first record
 }
