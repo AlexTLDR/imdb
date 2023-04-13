@@ -45,4 +45,9 @@ func main() {
 	PanicOnErr(err)
 
 	// TODO: Log the Director value of the first record
+	director, err := neo4j.SingleTWithContext[string](ctx, result,
+		func(record *neo4j.Record) (string, error) {
+			director, _, err := neo4j.GetRecordValue[string](record, "Director")
+			return director, err
+		})
 }
