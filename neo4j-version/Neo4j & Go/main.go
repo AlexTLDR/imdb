@@ -4,6 +4,7 @@ package main
 import (
 	// Import the driver
 	"context"
+	"fmt"
 
 	. "github.com/neo4j-graphacademy/neoflix/pkg/shared"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
@@ -50,4 +51,6 @@ func main() {
 			director, _, err := neo4j.GetRecordValue[string](record, "Director")
 			return director, err
 		})
+	PanicOnErr(err)
+	fmt.Println(director)
 }
