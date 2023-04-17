@@ -44,8 +44,11 @@ func main() {
 			if err != nil {
 				return *new(neo4j.Node), err
 			}
-			// same as before: extract the single result
-			// and return it as a neo4j.Node
+			return neo4j.SingleTWithContext(ctx, result,
+				func(record *neo4j.Record) (neo4j.Node, error) {
+					node, _, err := neo4j.GetRecordValue[neo4j.Node](record, "p")
+					return node, err
+				})
 
 		})
 	PanicOnErr(err)
