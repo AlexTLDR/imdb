@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"neo4j-version/database"
 	"neo4j-version/graph"
 	"net/http"
 	"os"
@@ -13,6 +14,7 @@ import (
 const defaultPort = "8080"
 
 func main() {
+	database.NewNeo4jConnection()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
