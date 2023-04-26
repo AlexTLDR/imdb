@@ -8,10 +8,14 @@ import (
 	"context"
 	"fmt"
 	"neo4j-version/graph/model"
+
+	"github.com/neo4j/neo4j-go-driver/neo4j"
 )
 
 // Movie is the resolver for the movie field.
 func (r *queryResolver) Movie(ctx context.Context, uuid string) (*model.Movie, error) {
+	session, err := r.Driver.NewSession(neo4j.SessionConfig{})
+	session.BeginTransaction()
 	panic(fmt.Errorf("not implemented: Movie - movie"))
 }
 
