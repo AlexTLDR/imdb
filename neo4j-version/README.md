@@ -12,3 +12,39 @@ docker run \
 You can try out your Neo4j container by opening http://localhost:7474/ (the Neo4j’s Browser interface) in a web browser. 
 
 After the docker container is created, navigate to the Built in guides -> :guide movie-graph to create the movie data base
+
+
+mutation CreateActor{
+  createActor(
+    input: {name: "Alex99", email: "alex99@gmail.com", phone: "012345699"}
+  ){
+    _id
+    name
+    email
+    phone
+  }
+}
+
+mutation CreateMovie{
+  createMovie(
+    input: {
+      actorId: "641da3004cf15a4e1f12879f",
+      name: "Matrix8", 
+      description: "SF", 
+      status: IN_PROGRESS}
+  ){
+    actors{name, phone}
+    name
+    description
+    status
+  }
+}
+
+query GetAllActors{
+  actors{
+    name
+    phone
+    email
+    _id
+  }
+}

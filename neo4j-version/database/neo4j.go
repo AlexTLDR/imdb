@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/neo4j/neo4j-go-driver/neo4j"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 // NewNeo4jConnection creates a new neo4j connection
@@ -14,7 +14,6 @@ func NewNeo4jConnection() (neo4j.Driver, error) {
 		target,
 		neo4j.BasicAuth("neo4j", "", ""),
 		func(c *neo4j.Config) {
-			c.Encrypted = false
 		})
 	if err != nil {
 		return nil, err

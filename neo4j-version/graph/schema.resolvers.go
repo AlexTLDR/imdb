@@ -9,19 +9,22 @@ import (
 	"fmt"
 	"neo4j-version/graph/model"
 
-	"github.com/neo4j/neo4j-go-driver/neo4j"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 // Movie is the resolver for the movie field.
 func (r *queryResolver) Movie(ctx context.Context, uuid string) (*model.Movie, error) {
-	session, err := r.Driver.NewSession(neo4j.SessionConfig{})
+	session := r.Driver.NewSession(neo4j.SessionConfig{})
 	session.BeginTransaction()
 	panic(fmt.Errorf("not implemented: Movie - movie"))
 }
 
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context, title *string, actor *string) ([]*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: Movies - movies"))
+	fmt.Println("check Movies query resolver")
+	session := r.Driver.NewSession(neo4j.SessionConfig{})
+	session.ReadTransaction()
+	return nil, nil
 }
 
 // Query returns QueryResolver implementation.
